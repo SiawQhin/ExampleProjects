@@ -1,0 +1,41 @@
+<div class="container">
+    <h1>LeetCode Problem Solver</h1>
+    
+    <div class="input-group my-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">LeetCode Url</span>
+        </div>
+        <input type="text" class="form-control" aria-label="LeetCode Url"
+         aria-describedby="inputGroup-sizing-default" 
+         [(ngModel)]="leetCodeUrl">
+      </div>
+     
+      Select your language: 
+      <select [(ngModel)]="selectedLanguage">
+        <option *ngFor="let language of languages" [value]="language">{{ language }}</option>
+      </select>
+
+      <div *ngIf="isLoading" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
+      <div class="row-5">  
+      <div class="form-group">
+        <label for="codeGenerated">Solution: </label>
+        <div class="right-position">
+          <span>Copy to clipboard: </span>
+          <button mat-icon-button (click)="copyToClipboard()">
+            <mat-icon>content_copy</mat-icon>
+          </button>
+        </div>
+        
+        <textarea class="form-control" id="codeGenerated" rows="10"></textarea>
+      </div>
+      </div>    
+    <div class="row mt-4">
+        <button class="btn btn-primary" (click)="btnSolveClicked()">Solve Problem</button>
+    </div>  
+
+</div>
