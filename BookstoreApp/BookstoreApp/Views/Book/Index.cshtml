@@ -1,0 +1,97 @@
+﻿@model IEnumerable<BookstoreApp.Models.Book>
+
+<div class="container p-3">
+    <h2 class="text-primary">Books</h2>
+
+    @using (Html.BeginForm("Index", "Book", FormMethod.Post))
+    {
+        <div class="col-10 text-end">
+            User: @ViewBag.UserName
+        </div>
+        
+        <div class="row">
+            <div class="col-4">
+                <input class="form-control" id="SearchName" name="SearchName" type="text" value="" />
+            </div>
+
+            <div class="col-3 offset-2">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    } 
+
+    <br />
+    <hr />
+    <div>Search Results for: @ViewBag.SearchName</div>
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-bordered table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>ID</th>
+                    <th>Reservation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var bookings = ViewBag.Bookings;
+                    var userId = Convert.ToInt16(ViewBag.UserId);
+                    bool isReserved = false;
+                    var isMyBook = false;
+                }
+
+                @foreach (var book in Model)
+                {
+                    <tr>
+                        <td width="30%">@book.Title</td>
+                        <td width="30%">@book.BookUUID</td>
+                        <td width="30%">
+                                @{
+                                    isReserved = false;
+                                    isMyBook = false;
+
+                                    if(bookings != null)
+                                    {
+                                        foreach (var b in bookings)
+                                        {
+                                            if (b.BookId == book.Id)
+                                            {
+                                                isReserved = true;
+                                                if (b.UserId == userId)
+                                                {
+                                                    isMyBook = true;
+                                                }
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            @if (isReserved != true)
+                            {
+                                <a asp-action="Reserve" class="btn btn-primary" asp-route-Id="@book.Id">Reserve</a>
+                            }
+                            else if(isMyBook == true)
+                            {
+                                <label>Reserved By You</label>
+                            }
+                            else
+                            {
+                                <label>Not Available</label>
+                            }
+                        </td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>  
+    }
+    else
+    {
+        <p>No Data Available</p>
+    }
+</div>
+
+

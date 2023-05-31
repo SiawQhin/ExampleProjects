@@ -1,0 +1,19 @@
+﻿@{
+    var bookingNumber = ViewBag.BookingNumber;
+    var isBookSuccess = ViewBag.IsBookSuccess;
+}
+
+@if (isBookSuccess)
+{
+    <div class="container p-3">
+        <h3>Your booking number is @bookingNumber</h3>
+        <a asp-action="Index" class="btn btn-primary"> Ok </a>
+    </div>
+}
+else 
+{
+    <div class="container p-3">
+        <h3>Sorry this book has been booked by someone else.</h3>
+        <a asp-action="Index" class="btn btn-primary"> Ok </a>
+    </div>
+}
